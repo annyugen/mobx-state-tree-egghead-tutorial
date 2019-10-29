@@ -6,7 +6,7 @@ class WishListEdit extends React.Component {
         const { item } = this.props
         return (
             <div className="item-edit">
-                Name: <input value={item.name} opnChange={this.onNameChange} />
+                Name: <input value={item.name} onChange={this.onNameChange} />
                 <br/>
                 Price: <input value={item.price} onChange={this.onPriceChange} />
                 <br/>

@@ -1,10 +1,10 @@
-import { types } from "mobx-state-tree";
+import { types, getParent, destroy } from "mobx-state-tree";
 import { type } from "os";
 
 const data = {
     "name": "Name",
     "price": 12,
-    "iamge": "imagePath"
+    "image": "imagePath"
 }
 
 export const WishListItem = types.model({
@@ -20,6 +20,9 @@ export const WishListItem = types.model({
     },
     changeImage(newImage) {
         self.image = newImage
+    },
+    remove() {
+        getParent(self, 2).remove(self) // This is the same as getParent(getParent(self).remove(self))
     }
 }));
 
@@ -28,6 +31,9 @@ export const WishList = types.model({
 }).actions(self => ({
     add(item) {
         self.items.push(item)
+    },
+    remove(item) {
+        destroy(item)
     }    
 })).views(self => ({
     get totalPrice() {

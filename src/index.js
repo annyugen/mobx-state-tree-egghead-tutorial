@@ -51,6 +51,8 @@ onSnapshot(wishList, snapshot => {
     localStorage.setItem("wishlistapp", JSON.stringify(snapshot))
 })
 function renderApp() {
+
+
     ReactDOM.render(<App wishList={wishList} group={group}/>, document.getElementById('root'));
 }
 
@@ -64,6 +66,7 @@ if(module.hot) {
 
     module.hot.accept(["./models/WishList"], () => {
         // render for new model definition
+        let wishList;
         const snapShot = getSnapshot(wishList);
         wishList = WishList.create(snapShot);
         renderApp();

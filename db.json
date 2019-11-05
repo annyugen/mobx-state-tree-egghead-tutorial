@@ -1,0 +1,36 @@
+{
+    "suggestions_f": [
+        {
+            "name": "Whatever name",
+            "price": 12,
+            "image": "Whatever image"
+        },
+        {
+            "name": "Whatever name 2",
+            "price": 5,
+            "image": "Whatever image 2"
+        },
+        {
+            "name": "Whatever name 3",
+            "price": 1,
+            "image": "Whatever image 3"
+        }
+    ],
+    "suggestions_m": [
+        {
+            "name": "Random name",
+            "price": 12,
+            "image": "Random image"
+        },
+        {
+            "name": "Random name 2",
+            "price": 5,
+            "image": "Random image 2"
+        },
+        {
+            "name": "Random name 3",
+            "price": 1,
+            "image": "Random image 3"
+        }
+    ]
+}

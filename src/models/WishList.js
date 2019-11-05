@@ -1,11 +1,4 @@
 import { types, getParent, destroy } from "mobx-state-tree";
-import { type } from "os";
-
-const data = {
-    "name": "Name",
-    "price": 12,
-    "image": "imagePath"
-}
 
 export const WishListItem = types.model({
     name: types.string,

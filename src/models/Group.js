@@ -1,4 +1,4 @@
-import { types, flow , getParent, applySnapshot} from "mobx-state-tree";
+import { types, flow , getParent, applySnapshot, getSnapshot, onSnapshot} from "mobx-state-tree";
 import { WishList } from "./WishList";
 
 
@@ -17,7 +17,21 @@ const User = types.compose(
                     `http://localhost:3001/suggestions_${self.gender}`
                 )
                 self.wishList.items.push(...(yield response.json()))
-            })
+            }),
+            save: flow(function* save() {
+                try {
+                    yield window.fetch(`http://localhost:3001/users/${self.id}`, {
+                        method: "PUT",
+                        headers: { "Content-Type": "application/json" },
+                        body: JSON.stringify(getSnapshot(self))
+                    })
+                } catch (e) {
+                    console.error("Failed to save: ", e)
+                }               
+            }),
+            afterCreate() {
+                onSnapshot(self, self.save)
+            }
         }))
 )
 
@@ -55,7 +69,7 @@ export const Group = types
                 if (controller) controller.abort()
                 self.load()
             },
-            beforeDestroy() {
+            beforeDestroy() { // Lifecycle hook that litens to whether the Group object will be killed
                 if (controller) controller.abort()
             },
             drawLots() {

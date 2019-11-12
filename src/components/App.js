@@ -7,49 +7,49 @@ import { observer } from 'mobx-react';
 
 class App extends React.Component {
   constructor(props) {
-    super()
-    this.state = { selectedUser: null }  
+      super()
+      this.state = { selectedUser: null }
   }
-  
-  render() {
-    const { group } = this.props;
-    const selectedUser = group.users.get(this.state.selectedUser)
 
-    return (
-      <div className="App">
-        <header className="App-header">
-          <h2>
-            Wish List        
-          </h2>
-          <button onCLick={group.reload} >Reload</button>
-			<select onChange={this.onSelectUser}>
-				<option>- Select User -</option>
-				{/* values() function from mobx is required to map a types.map; Tutorial method is outdated! Or use Array.from */}
-				{values(group.users).map(user => 
-					<option key={user.id} value={user.id}>
-						{user.name}
-					</option>
-				)}
-			</select>
-			<button onClick={group.drawLots}>Draw lots</button>
+  render() {
+      const { group } = this.props
+      const selectedUser = group.users.get(this.state.selectedUser)
+      return (
+          <div className="App">
+              <header className="App-header">
+                    <h1 className="App-title">WishList</h1>
+                <button onClick={group.reload}>Reload</button>
+                <select onChange={this.onSelectUser}>
+                    <option>- Select user -</option>
+                    {/* Array.from converts an iterable to array, so that we can map over it */}
+                    {/* We can also use values function from mobx to do the same thing */}
+                    {Array.from(group.users.values()).map(user => (
+                        <option key={user.id} value={user.id}>
+                            {user.name}
+                        </option>
+                    ))}
+                </select>
+                <button onClick={group.drawLots}>Draw lots</button>
                 {selectedUser && <User user={selectedUser} />}
-        </header>
-      </div>
-    );
+              </header>
+
+          </div>
+      )
   }
-  onSelectUser = evt => {
-    this.setState({ selectedUser: evt.target.value })
+
+  onSelectUser = event => {
+      this.setState({ selectedUser: event.target.value })
   }
 }
 
 const User = observer(({ user }) => (
-	<div>
-		<WishListView wishList={user.wishList} />
-		<button onClick={user.getSuggestions} >Suggestion</button>
-		<hr />
-		<h2>{user.recipient ? user.recipient.name: ""}</h2>
-    { user.recipient && <WishListView wishList={user.recipient.wishList} readonly />} 
-	</div>
+  <div>
+      <WishListView wishList={user.wishList} />
+      <button onClick={user.getSuggestions}>Suggestions</button>
+      <hr />
+      <h2>{user.recipient ? user.recipient.name : ""}</h2>
+      {user.recipient && <WishListView wishList={user.recipient.wishList} readonly />}
+  </div>
 ))
 
-export default App;
+export default observer(App)

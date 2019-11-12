@@ -18,9 +18,10 @@ class App extends React.Component {
     return (
       <div className="App">
         <header className="App-header">
-          <a>
+          <h2>
             Wish List        
-          </a>
+          </h2>
+          <button onCLick={group.reload} >Reload</button>
 			<select onChange={this.onSelectUser}>
 				<option>- Select User -</option>
 				{/* values() function from mobx is required to map a types.map; Tutorial method is outdated! Or use Array.from */}
@@ -39,16 +40,15 @@ class App extends React.Component {
   onSelectUser = evt => {
     this.setState({ selectedUser: evt.target.value })
   }
-
-  
 }
 
 const User = observer(({ user }) => (
 	<div>
 		<WishListView wishList={user.wishList} />
-		<button onClick={user.getSuggestions} >Suggestion</button>}
+		<button onClick={user.getSuggestions} >Suggestion</button>
 		<hr />
-		<h2>{user.recipient ? user.recipient: ""}</h2>
+		<h2>{user.recipient ? user.recipient.name: ""}</h2>
+    { user.recipient && <WishListView wishList={user.recipient.wishList} readonly />} 
 	</div>
 ))
 

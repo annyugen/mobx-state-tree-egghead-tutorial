@@ -10,7 +10,7 @@ class WishListItemView extends React.Component {
     }
 
     render() {
-        const { item } = this.props;
+        const { item, readonly } = this.props;
         return (
             this.state.isEditing ? (
                 this.renderEditable()
@@ -18,8 +18,12 @@ class WishListItemView extends React.Component {
                 <li className="item">
                     <h3>{item.name}</h3>
                     <p>{item.price}</p>
-                    <button onClick={this.onToggleEdit}>Edit</button>
-                    <button onClick={item.remove}>Delete</button>
+                    { !readonly && 
+                        <span>
+                            <button onClick={this.onToggleEdit}>Edit</button>
+                            <button onClick={item.remove}>Delete</button>
+                        </span>
+                    }
                 </li>
             )
         )

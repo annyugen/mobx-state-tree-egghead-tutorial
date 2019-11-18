@@ -1,6 +1,6 @@
 import { types, flow , getParent, applySnapshot, getSnapshot, onSnapshot} from "mobx-state-tree";
 import { WishList } from "./WishList";
-
+import { createStorable } from "./Storable";
 
 const User = types.compose(
     types
@@ -18,21 +18,8 @@ const User = types.compose(
                 )
                 self.wishList.items.push(...(yield response.json()))
             }),
-            save: flow(function* save() {
-                try {
-                    yield window.fetch(`http://localhost:3001/users/${self.id}`, {
-                        method: "PUT",
-                        headers: { "Content-Type": "application/json" },
-                        body: JSON.stringify(getSnapshot(self))
-                    })
-                } catch (e) {
-                    console.error("Failed to save: ", e)
-                }               
-            }),
-            afterCreate() {
-                onSnapshot(self, self.save)
-            }
-        }))
+        })),
+        createStorable("user", "id")
 )
 
 export const Group = types
